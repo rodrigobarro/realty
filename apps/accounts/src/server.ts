@@ -1,41 +1,18 @@
-import Fastify from "fastify";
-import fastifyEnv from "@fastify/env";
-
-const envSchema = {
-  type: "object",
-  required: ["NODE_ENV", "HTTP_PORT"],
-  properties: {
-    NODE_ENV: {
-      type: "string",
-    },
-    HTTP_PORT: {
-      type: "string",
-    },
-  },
-};
-
-const options = {
-  confKey: "config",
-  schema: envSchema,
-  dotenv: true,
-  data: process.env,
-};
-
-const initialize = async () => {
-  const fastify = Fastify({ logger: true });
-  fastify.register(fastifyEnv, options);
-  await fastify.after();
-  fastify.get("/", async (request, reply) => {
-    return "Hello world!";
-  });
-  await fastify.ready();
-  return fastify;
-};
+import App from "./app";
 
 const start = async () => {
   try {
-    const fastify = await initialize();
-    await fastify.listen({ port: parseInt(process.env.HTTP_PORT ?? "8000") });
+    const serverPort: number = Number(process.env.HTTP_PORT) || 8000;
+    console.log(process.env.HTTP_PORT);
+    const server = await App({
+      logger: {
+        level: "info",
+        transport: {
+          target: "pino-pretty",
+        },
+      },
+    });
+    await server.listen({ port: serverPort });
   } catch (err) {
     console.error(err);
     process.exit(1);
