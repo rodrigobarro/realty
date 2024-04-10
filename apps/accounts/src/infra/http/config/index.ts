@@ -1,7 +1,8 @@
-import Fastify, { FastifyInstance } from "fastify";
 import fastifyEnv from "@fastify/env";
+import mongodb from "@fastify/mongodb";
+import fastifyPlugin from "fastify-plugin";
 
-const App = async (options = {}): Promise<FastifyInstance> => {
+const config = async (app: any, options: any) => {
   const envSchema = {
     type: "object",
     required: ["NODE_ENV", "HTTP_PORT"],
@@ -22,22 +23,11 @@ const App = async (options = {}): Promise<FastifyInstance> => {
     data: process.env,
   };
 
-  const app = Fastify(options);
   app.register(fastifyEnv, envOptions);
-  await app.after();
-
-  // routes
-  app.get("/", async (request, reply) => {
-    return { hello: "world" };
+  app.register(mongodb, {
+    forceClose: true,
+    url: "mongodb://admin:password@0.0.0.0:27017/?authSource=admin",
   });
-
-  app.post("/accounts/create", async (request, reply) => {
-    return { msg: "Account created"};
-  });
-
-  await app.ready();
-
-  return app;
 };
 
-export default App;
+export default config;
