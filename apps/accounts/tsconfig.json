@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es2017",                                  
+    "module": "commonjs",                                
+    //"rootDir": "./src",                                
+    "outDir": "./build",                                  
+    "esModuleInterop": true,                             
+    "forceConsistentCasingInFileNames": true,           
+    "strict": true,                                      
+    "skipLibCheck": true     ,
+    "strictPropertyInitialization": false,                           
+  },
+  "include": [
+    "src",
+    "tests"
+    ]
+  //"include": ["src/**/*", "tests/**/*"],
+  //"exclude": ["node_modules"]
+}
