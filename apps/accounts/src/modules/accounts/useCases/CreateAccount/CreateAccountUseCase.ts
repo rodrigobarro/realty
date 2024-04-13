@@ -31,7 +31,6 @@ export class CreateAccountUseCase
     const phoneOrError = AccountPhone.create(phone);
 
     const combinedPropsResult = Result.combine([emailOrError, phoneOrError]);
-    console.log(combinedPropsResult);
 
     if (combinedPropsResult.isFailure) {
       return left(Result.fail<void>(combinedPropsResult.error)) as Response;

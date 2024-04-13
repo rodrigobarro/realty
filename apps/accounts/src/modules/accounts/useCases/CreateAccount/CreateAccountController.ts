@@ -17,8 +17,7 @@ export class CreateAccountController extends BaseController {
 
     try {
       const result = await this.useCase.execute(dto);
-      console.log("result")
-      console.log(result)
+  
       if (result.isLeft()) {
         const error = result.value;
 
@@ -32,8 +31,6 @@ export class CreateAccountController extends BaseController {
         return this.ok(this.response);
       }
     } catch (err: unknown) {
-      console.log("errorrr")
-      console.log(err)
       return this.fail(err);
     }
   }

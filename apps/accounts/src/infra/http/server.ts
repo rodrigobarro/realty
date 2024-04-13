@@ -3,7 +3,6 @@ import App from "./app";
 const start = async () => {
   try {
     const serverPort: number = Number(process.env.HTTP_PORT) || 8000;
-    console.log(process.env.HTTP_PORT);
     const server = await App({
       logger: {
         level: "info",

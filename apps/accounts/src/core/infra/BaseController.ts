@@ -21,7 +21,6 @@ export abstract class BaseController {
   }
 
   public fail(error: Error | string | unknown) {
-    console.log(typeof error);
     return this.response.status(500).serialize({
       message: error?.toString(),
     });

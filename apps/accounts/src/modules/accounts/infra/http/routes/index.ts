@@ -7,6 +7,4 @@ export default async function Router(app: any, options: any) {
     async (request: FastifyRequest, response: FastifyReply) =>
       createAccountController.execute(request, response)
   );
-  console.log("------CONFIG")
-  console.log(app.config)
 }
