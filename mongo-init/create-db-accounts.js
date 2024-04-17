@@ -15,3 +15,4 @@ db.accounts.insert({
   phone: "11976545678",
   accountId: UUID()
 });
+db = db.getSiblingDB('completations');
