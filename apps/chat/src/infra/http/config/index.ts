@@ -5,7 +5,7 @@ import fastifyPlugin from "fastify-plugin";
 const config = async (app: any, options: any) => {
   const envSchema = {
     type: "object",
-    required: ["NODE_ENV", "HTTP_PORT"],
+    required: ["NODE_ENV", "HTTP_PORT", "OPEN_AI"],
     properties: {
       NODE_ENV: {
         type: "string",
@@ -13,6 +13,9 @@ const config = async (app: any, options: any) => {
       HTTP_PORT: {
         type: "string",
       },
+      OPEN_AI: {
+        type: "string"
+      }
     },
   };
 

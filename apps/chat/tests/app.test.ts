@@ -13,7 +13,7 @@ test("Create a new Completations/Questions", async () => {
   // app.close();
 });
 
-test("New question can't be null", async () => {
+test("New question should not be null", async () => {
   const question = Question.create({
     question: "Hi",
     completion: "Hi, how can i help you?",
@@ -25,7 +25,14 @@ test("New question can't be null", async () => {
   expect(question.accountId).toBe("acc-1");
 });
 
-test("New CreateQuestionUseCase can't be null", async () => {
+test("New CreateQuestionUseCase should not be null", async () => {
   const repository = new QuestionsInMemoryRepository();
   const useCase = new CreateQuestionUseCase(repository);
+  const createQuestionRequest = {
+    question: "Hi",
+    completion: "Hi, how can i help you?",
+    accountId: "acc-1",
+  }
+  const result = useCase.execute(createQuestionRequest);
+  console.log(result)
 });

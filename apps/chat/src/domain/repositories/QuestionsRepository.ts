@@ -1,3 +1,4 @@
+import { setTimeout } from "timers/promises";
 import { Question } from "../entities/Question";
 
 export interface IQuestionsRepository {
@@ -11,7 +12,10 @@ export class QuestionsRepository implements IQuestionsRepository {
 }
 
 export class QuestionsInMemoryRepository implements IQuestionsRepository {
+  private questions: Question[];
+
   save(question: Question): Promise<void> {
-    throw new Error("Method not implemented.");
+    this.questions.push(question);
+    return setTimeout(1000);
   }
 }
