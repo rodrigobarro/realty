@@ -178,6 +178,9 @@ importers:
       '@fastify/mongodb':
         specifier: ^8.0.0
         version: 8.0.0
+      '@langchain/openai':
+        specifier: ^0.0.28
+        version: 0.0.28
       deep-equal:
         specifier: ^2.2.3
         version: 2.2.3
