@@ -1,5 +1,7 @@
 import { Question } from "../src/domain/entities/Question";
 import { QuestionsInMemoryRepository } from "../src/domain/repositories/QuestionsRepository";
+import { FakeLLMService } from "../src/domain/services/FakeLLMService";
+import { OpenAIService } from "../src/domain/services/OpenAIService";
 import { CreateQuestionUseCase } from "../src/domain/useCases/CreateQuestion/CreateQuestionUseCase";
 import App from "../src/infra/http/app";
 
@@ -27,12 +29,14 @@ test("New question should not be null", async () => {
 
 test("New CreateQuestionUseCase should not be null", async () => {
   const repository = new QuestionsInMemoryRepository();
-  const useCase = new CreateQuestionUseCase(repository);
+  const service = new FakeLLMService();
+  const useCase = new CreateQuestionUseCase(repository, service);
   const createQuestionRequest = {
     question: "Hi",
-    completion: "Hi, how can i help you?",
     accountId: "acc-1",
-  }
-  const result = useCase.execute(createQuestionRequest);
+  };
+  const result = await useCase.execute(createQuestionRequest);
   console.log(result)
+  expect(result).not.toBeFalsy();
+  expect(result.completion).toBe("Hello");
 });

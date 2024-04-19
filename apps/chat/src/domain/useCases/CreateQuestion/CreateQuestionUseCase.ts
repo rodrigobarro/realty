@@ -1,11 +1,12 @@
+import { Question } from "../../entities/Question";
 import { QuestionsRepository } from "../../repositories/QuestionsRepository";
-import { OpenAI } from "@langchain/openai";
+import IQuestionService from "../../services/IQuestionService";
 
 interface UseCase<IRequest, IResponse> {
   execute(request?: IRequest): Promise<IResponse> | IResponse;
 }
 
-export interface CreateQuestionRequest {
+export type CreateQuestionRequest =  {
   question: string;
   accountId: string;
 }
@@ -13,19 +14,25 @@ export interface CreateQuestionRequest {
 export class CreateQuestionUseCase
   implements UseCase<CreateQuestionRequest, Promise<Response>>
 {
-  constructor(repository: QuestionsRepository) {}
-  async execute(request?: CreateQuestionRequest | undefined): Promise<any> {
-    const model = new OpenAI({
-      model: "gpt-3.5-turbo-instruct", 
-      temperature: 0.9,
-      apiKey: "API_KEY",
-    });
-    try {
-      const response = await model.invoke(
-        "What would be a good company name a company that makes colorful socks?"
-      );
+  private repository: QuestionsRepository;
+  private questionsService: IQuestionService;
 
-      return response;
+  constructor(
+    repository: QuestionsRepository,
+    questionsService: IQuestionService
+  ) {
+    this.repository = repository;
+    this.questionsService = questionsService;
+  }
+  async execute(request: CreateQuestionRequest): Promise<any> {
+    try {
+      const completion = await this.questionsService.createCompletion(request.question);
+      const question = Question.create({
+        question: request.question,
+        completion: completion.message,
+        accountId: request.accountId
+      });
+      return question
     } catch (err) {
       console.log(err);
     }
